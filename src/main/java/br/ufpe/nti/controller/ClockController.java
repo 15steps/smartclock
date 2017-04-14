@@ -3,6 +3,7 @@ package br.ufpe.nti.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,24 +19,32 @@ import br.ufpe.nti.model.Clock;
 
 @RestController
 public class ClockController {
-	
-	private double angle;
-	
+		
 	@RequestMapping(path = "/clock", method = RequestMethod.GET)
 	public ResponseEntity<String> AngleRequest() {
-		Clock clock = new Clock();
+		Clock clock = new Clock();		
+		double angle = computeAngle(clock.getTime());
+		
+		return getClockResponse(clock, angle);
+	}
+
+	/**
+	 * 
+	 * @param clock
+	 * @param angle
+	 * @return complete HTTP response
+	 */
+	private ResponseEntity<String> getClockResponse(Clock clock, double angle) {
 		HttpHeaders header = new HttpHeaders();
 		header.setContentType(MediaType.APPLICATION_JSON);
 		DateFormat createdAtFormatter = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
 		
-		setAngle(computeAngle(clock.getTime()));
-		
 		JSONObject body = new JSONObject();
 		try {
 			body.put("id", "null");
-			body.put("time", clock.getTime().getHour() + ":" + clock.getTime().getMinute());
+			body.put("time", clock.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
 			body.put("createdAt", createdAtFormatter.format(clock.getCreatedAt()));
-			body.put("angle", getAngle());
+			body.put("angle", angle);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,12 +74,5 @@ public class ClockController {
 		
 		return angle;
 	}
-
-	public double getAngle() {
-		return angle;
-	}
-
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
+	
 }
