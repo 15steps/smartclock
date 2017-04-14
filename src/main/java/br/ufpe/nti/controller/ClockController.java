@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,16 +21,31 @@ import br.ufpe.nti.model.Clock;
 @RestController
 public class ClockController {
 		
-	@RequestMapping(path = "/clock", method = RequestMethod.GET)
-	public ResponseEntity<String> AngleRequest() {
+	@RequestMapping(value = "/clock", method = RequestMethod.GET)
+	public ResponseEntity<String> GetAngleRequest() {
 		Clock clock = new Clock();		
 		double angle = computeAngle(clock.getTime());
 		
 		return getClockResponse(clock, angle);
 	}
+	
+	@RequestMapping(value = "/clock", method = RequestMethod.POST)
+	public ResponseEntity<String> PostAngleRequest(@RequestBody String body) {
+		Clock clock = new Clock();
+		double angle = 0.0;
+		try {
+			JSONObject jsonBody = new JSONObject(body);
+			LocalTime lt = LocalTime.parse(jsonBody.getString("time"));
+			clock.setTime(lt);
+			angle = computeAngle(lt);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return getClockResponse(clock, angle);
+	}
 
 	/**
-	 * 
 	 * @param clock
 	 * @param angle
 	 * @return complete HTTP response
@@ -54,7 +70,6 @@ public class ClockController {
 	}
 	
 	/**
-	 * 
 	 * @param time
 	 * @return angle between clock hands
 	 */
