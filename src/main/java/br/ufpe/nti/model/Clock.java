@@ -31,7 +31,12 @@ public class Clock {
 	@Column(name = "CREATED_AT")
 	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
 	private Timestamp createdAt;
-
+	
+	public Clock() {
+		time = LocalTime.now();
+		createdAt = new Timestamp(System.currentTimeMillis());
+	}
+	
 	public Long getId() {
 		return id;
 	}
