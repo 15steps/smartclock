@@ -49,4 +49,9 @@ public class ClockController {
 		return db.listAll();
 	}
 	
+	@GetMapping(value = "/clockhistory/{id}")
+	public Clock GetClockById() {
+		return new Clock();
+	}
+	
 }

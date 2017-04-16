@@ -20,6 +20,7 @@ public class ClockHistoryRepository {
 	public List<Clock> listAll() {
 		return em.createQuery("SELECT c FROM Clock c", Clock.class).getResultList();
 	}
+	
 
 	@Transactional
 	public Clock save(Clock c) {
