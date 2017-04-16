@@ -44,4 +44,9 @@ public class ClockController {
 		return clockService.getClockResponse(lastClock, angle);
 	}
 	
+	@GetMapping(value = "/clockhistory")
+	public ResponseEntity<String> GetHistory() {
+		return null;
+	}
+	
 }
