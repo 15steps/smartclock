@@ -30,7 +30,7 @@ public class ClockService {
 		
 		JSONObject body = new JSONObject();
 		try {
-			body.put("id", "null");
+			body.put("id", clock.getId() == null ? "null" : clock.getId());
 			body.put("time", clock.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
 			body.put("createdAt", createdAtFormatter.format(clock.getCreatedAt()));
 			body.put("angle", angle);

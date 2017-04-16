@@ -20,6 +20,12 @@ public class ClockHistoryRepository {
 	public List<Clock> listAll() {
 		return em.createQuery("SELECT c FROM Clock c", Clock.class).getResultList();
 	}
+	
+	public Clock getLastEntry() {
+		return em.createQuery("SELECT c "
+				+ "FROM Clock c "
+				+ "WHERE c.id = (SELECT MAX(c2.id) FROM Clock c2)", Clock.class).getSingleResult();
+	}
 
 	@Transactional
 	public Clock save(Clock c) {

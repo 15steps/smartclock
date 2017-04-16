@@ -4,9 +4,9 @@ import java.time.LocalTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpe.nti.controller.repository.ClockHistoryRepository;
@@ -21,7 +21,7 @@ public class ClockController {
 	@Autowired
 	private ClockService clockService;
 	
-	@RequestMapping(value = "/clock", method = RequestMethod.GET)
+	@GetMapping(value = "/clock")
 	public ResponseEntity<String> GetAngleRequest() {
 		Clock clock = new Clock();		
 		double angle = clockService.computeAngle(clock.getTime());
@@ -29,7 +29,7 @@ public class ClockController {
 		return clockService.getClockResponse(clock, angle);
 	}
 	
-	@RequestMapping(value = "/clock", method = RequestMethod.POST)
+	@PostMapping(value = "/clock")
 	public ResponseEntity<String> PostAngleRequest(@RequestBody String body) {
 		Clock clock = new Clock();
 		double angle = 0.0;
@@ -38,10 +38,10 @@ public class ClockController {
 		clock.setTime(lt);
 		angle = clockService.computeAngle(lt);
 		
-		//database insertion
 		db.save(clock);
+		Clock lastClock = db.getLastEntry();
 		
-		return clockService.getClockResponse(clock, angle);
+		return clockService.getClockResponse(lastClock, angle);
 	}
 	
 }
