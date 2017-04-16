@@ -21,6 +21,10 @@ public class ClockHistoryRepository {
 		return em.createQuery("SELECT c FROM Clock c", Clock.class).getResultList();
 	}
 	
+	public Clock clockById(int id) {
+		return em.createQuery("SELECT c FROM Clock c "
+				+ "WHERE c.id = " + id, Clock.class).getSingleResult();
+	}
 
 	@Transactional
 	public Clock save(Clock c) {

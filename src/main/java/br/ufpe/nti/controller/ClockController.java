@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ import br.ufpe.nti.model.Clock;
 public class ClockController {
 	
 	@Autowired
-	private ClockHistoryRepository db;
+	private ClockHistoryRepository clockDB;
 	@Autowired
 	
 	@GetMapping(value = "/clock")
@@ -41,17 +42,17 @@ public class ClockController {
 		
 		clock.setTime(lt);
 		
-		return db.save(clock);
+		return clockDB.save(clock);
 	}
 	
 	@GetMapping(value = "/clockhistory")
 	public List<Clock> GetHistory() {
-		return db.listAll();
+		return clockDB.listAll();
 	}
 	
 	@GetMapping(value = "/clockhistory/{id}")
-	public Clock GetClockById() {
-		return new Clock();
+	public Clock GetClockById(@PathVariable int id) {
+		return clockDB.clockById(id);
 	}
 	
 }
