@@ -1,6 +1,7 @@
 package br.ufpe.nti.controller;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class ClockController {
 	@GetMapping(value = "/clock")
 	public ResponseEntity<String> GetAngleRequest() {
 		Clock clock = new Clock();		
-		double angle = clockService.computeAngle(clock.getTime());
+		double angle = clock.getAngle();
 		
 		return clockService.getClockResponse(clock, angle);
 	}
@@ -36,7 +37,7 @@ public class ClockController {
 		
 		LocalTime lt = clockService.jsonToLocalTime(body);
 		clock.setTime(lt);
-		angle = clockService.computeAngle(lt);
+		angle = clock.getAngle();
 		
 		db.save(clock);
 		Clock lastClock = db.getLastEntry();
@@ -46,7 +47,8 @@ public class ClockController {
 	
 	@GetMapping(value = "/clockhistory")
 	public ResponseEntity<String> GetHistory() {
-		return null;
+		List<Clock> history = db.listAll();
+		return clockService.getClockHistoryResponse(history);
 	}
 	
 }

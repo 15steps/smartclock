@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,25 +43,7 @@ public class ClockService {
 		return new ResponseEntity<String>(body.toString(), header, HttpStatus.OK);
 	}
 	
-	/**
-	 * @param time
-	 * @return angle between clock hands
-	 */
-	public double computeAngle(LocalTime time) {
-		double angle = 0.0;
-		int hour = time.getHour();
-		int minute = time.getMinute();
-		
-		hour = hour > 12 ? hour - 12 : hour;
-		
-		double dh = (60.0*hour + minute)/2.0;
-		double dm = 6.0*minute;
-		
-		angle = Math.abs(dh - dm);
-		angle = angle > 180.0 ? 360.0 - angle : angle;
-		
-		return angle;
-	}
+	
 	
 	/**
 	 * @param body
@@ -76,5 +59,30 @@ public class ClockService {
 			e.printStackTrace();
 		}
 		return lt;
+	}
+	
+	/**
+	 * @param history
+	 * @return json of all records in Clock table
+	 */
+	public ResponseEntity<String> getClockHistoryResponse(List<Clock> history) {
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(MediaType.APPLICATION_JSON);
+		DateFormat createdAtFormatter = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+		
+		JSONObject body = new JSONObject();
+		for(Clock clock : history) {
+			try {
+				body.put("id", clock.getId());
+				body.put("time", clock.getTime());
+				body.put("createdAt", clock.getCreatedAt());
+				body.put("angle", clock.getAngle());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return new ResponseEntity<String>(body.toString(), header, HttpStatus.OK);
 	}
 }

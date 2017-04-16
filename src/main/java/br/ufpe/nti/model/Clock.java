@@ -32,6 +32,17 @@ public class Clock {
 	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
 	private Timestamp createdAt;
 	
+	@Column
+	private double angle;
+	
+	public double getAngle() {
+		return computeAngle(this.getTime());
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+
 	public Clock() {
 		time = LocalTime.now();
 		createdAt = new Timestamp(System.currentTimeMillis());
@@ -59,5 +70,25 @@ public class Clock {
 
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
+	}
+	
+	/**
+	 * @param time
+	 * @return angle between clock hands
+	 */
+	public double computeAngle(LocalTime time) {
+		double angle = 0.0;
+		int hour = time.getHour();
+		int minute = time.getMinute();
+		
+		hour = hour > 12 ? hour - 12 : hour;
+		
+		double dh = (60.0*hour + minute)/2.0;
+		double dm = 6.0*minute;
+		
+		angle = Math.abs(dh - dm);
+		angle = angle > 180.0 ? 360.0 - angle : angle;
+		
+		return angle;
 	}
 }
