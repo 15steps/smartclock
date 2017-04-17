@@ -1,0 +1,37 @@
+body {
+}
+
+md-content {
+  background-color: transparent!important;
+}
+
+md-content md-tabs {
+  background: #f6f6f6;
+
+}
+
+md-content md-tabs md-tabs-wrapper {
+  background: white;
+  border: 1px solid #e1e1e1;
+}
+
+md-content h1:first-child {
+  margin-top: 0;
+}
+
+#tabs {
+  padding-top: 5px;
+}
+
+#analogClock .second,
+#analogClock .second-counterweight {
+  stroke-width: 0;
+}
+
+#analogClock .second-counterweight {
+  stroke-width: 0;
+}
+
+.clockDiv {
+  width: 30%;
+}

@@ -1,18 +1,11 @@
 //main module
-var smartclock = angular.module("smartclock", ['ngMaterial']);
-
-//resetting headers so preflight doesn't happen
-smartclock.config(function ($httpProvider) {
-  $httpProvider.defaults.headers.common = {};
-  $httpProvider.defaults.headers.post = {};
-  $httpProvider.defaults.headers.put = {};
-  $httpProvider.defaults.headers.patch = {};
-});
+var smartclock = angular.module('smartclock', ['ngMaterial', 'ds.clock']);
 
 //controllers
 smartclock.controller("clockController", function($scope, $http) {
   $scope.clock = {};
   $scope.history = [];
+  $scope.currentNavItem = 'page1';
 
   //[GET] /clock
   $scope.getClockAngle = function() {
@@ -60,4 +53,12 @@ smartclock.controller("clockController", function($scope, $http) {
 
   $scope.getClockHistory();
 
+});
+
+//resetting headers so preflight doesn't happen
+smartclock.config(function ($httpProvider, $mdThemingProvider) {
+  $httpProvider.defaults.headers.common = {};
+  $httpProvider.defaults.headers.post = {};
+  $httpProvider.defaults.headers.put = {};
+  $httpProvider.defaults.headers.patch = {};
 });
