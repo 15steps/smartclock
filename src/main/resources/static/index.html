@@ -7,8 +7,8 @@
 	<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="bower_components/angular-ui-clock/dist/angular-clock.css">
 	<link rel="stylesheet" href="css/style.css" />
+	<link href="bower_components/angular-moment-picker/dist/angular-moment-picker.min.css" rel="stylesheet">
 
 </head>
 <body ng-controller="clockController">
@@ -19,9 +19,6 @@
 			<md-tab label="Now">
 				<md-content class="md-padding">
 					<h1>CONTENT 1</h1>
-					<div class="clockDiv">
-						<ds-widget-clock id="analogClock" theme="dark" show-analog="true"></ds-widget-clock>
-					</div>
 				</md-content>
 			</md-tab>
 			<md-tab label="Compute Angle">
@@ -29,19 +26,20 @@
 					<h1>CONTENT 2</h1>
 					<md-input-container>
 						<label>Enter time</label>
-						<input type="time" ng-model="clock.time" />
+						<input ng-model="clock.time"/>
 					</md-input-container>
-					<md-button class="md-primary" ng-click="postClock()">Compute Angle</md-button>
+					<md-button class="md-primary" ng-click="postClock(); showToast()">Compute Angle</md-button>
 				</md-content>
 			</md-tab>
-			<md-tab label="History">
+			<md-tab label="History" name="history">
 				<md-content class="md-padding">
 					<h1>History</h1>
 					<md-content>
 						<md-list class="md-dense" flex>
 							<md-subheader class="md-no-sticky">Request history</md-subheader>
-							<md-list-item class="md-3-line" ng-repeat="clock in history">
+							<md-list-item class="md-3-line" ng-repeat="clock in history | orderBy: '-id'">
 								<div class="md-list-item-text" layout="column">
+									<h3><strong>ID: </strong>{{clock.id}}</h3>
 									<h3><strong>Time: </strong>{{clock.time}}</h3>
 									<h3><strong>Angle: </strong>{{clock.angle}}</h3>
 								</div>
@@ -63,7 +61,7 @@
 	<script src="bower_components/moment/locale/de.js"></script>
 	<script src="bower_components/angular-moment/angular-moment.js"></script>
 	<script src="bower_components/angular-aria/angular-aria.js"></script>
+	<script src="bower_components/angular-moment-picker/dist/angular-moment-picker.min.js"></script>
 	<script src="js/smartclock-controller.js"></script>
-	<script src="bower_components/angular-ui-clock/dist/angular-clock.js"></script>
 </body>
 </html>

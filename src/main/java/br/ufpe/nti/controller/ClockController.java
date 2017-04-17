@@ -20,7 +20,6 @@ public class ClockController {
 	
 	@Autowired
 	private ClockHistoryRepository clockDB;
-	@Autowired
 	
 	@GetMapping(value = "/clock")
 	public Clock GetAngleRequest() {
