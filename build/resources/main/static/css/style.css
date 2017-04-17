@@ -1,0 +1,21 @@
+body {
+  background-color: #f6f6f6;
+}
+
+md-content {
+  background-color: transparent!important;
+}
+
+md-content md-tabs {
+  background: #f6f6f6;
+
+}
+
+md-content md-tabs md-tabs-wrapper {
+  background: white;
+  border: 1px solid #e1e1e1;
+}
+
+md-content h1:first-child {
+  margin-top: 0;
+}
