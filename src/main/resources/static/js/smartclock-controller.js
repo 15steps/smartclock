@@ -12,7 +12,7 @@ smartclock.controller("clockController", function($scope, $http, $mdToast) {
   }
 
   //[GET] /clock
-  $scope.getClockAngle = function() {
+  $scope.getCurrentTimeAngle = function() {
     $http({method:'GET', url:'http://localhost:8080/clock'})
     .then(function succes(response) {
       $scope.clock = response.data;
