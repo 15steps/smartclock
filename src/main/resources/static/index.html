@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="smartclock">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8"></meta>
 	<title>Smart Clock</title>
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 	<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 </head>
-<body>
-	show me yours skills! =D
+<body ng-controller="clockController">
+
+	<h1>SMARTCLOCK</h1>
+	<input type="text" ng-model="clock.time" />
+	<button ng-click="postClock()">Compute Angle</button>
+	<br /><br />
+	<div ng-repeat="clock in history">
+		<ul>ID: {{clock.id}}</ul>
+		<ul>Time: {{clock.time}}</ul>
+		<ul>Created At: {{clock.createdAt}}</ul>
+		<ul>Angle: {{clock.angle}}</ul>
+	</div>
 
 	<!-- Angular Material requires Angular.js Libraries -->
 	<script src="bower_components/angular/angular.js"></script>
@@ -19,5 +30,6 @@
 	<script src="bower_components/moment/locale/de.js"></script>
 	<script src="bower_components/angular-moment/angular-moment.js"></script>
 	<script src="bower_components/angular-aria/angular-aria.js"></script>
+	<script src="js/smartclock-controller.js"></script>
 </body>
 </html>

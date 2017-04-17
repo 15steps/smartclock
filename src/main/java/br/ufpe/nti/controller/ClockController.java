@@ -25,6 +25,7 @@ public class ClockController {
 	@GetMapping(value = "/clock")
 	public Clock GetAngleRequest() {
 		return new Clock();
+		
 	}
 	
 	@PostMapping(value = "/clock")
